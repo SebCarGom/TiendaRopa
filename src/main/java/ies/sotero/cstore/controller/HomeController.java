@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +23,10 @@ import ies.sotero.cstore.model.Order;
 import ies.sotero.cstore.model.OrderDetail;
 import ies.sotero.cstore.model.Product;
 import ies.sotero.cstore.model.User;
-import ies.sotero.cstore.service.OrderDetailService;
-import ies.sotero.cstore.service.OrderService;
-import ies.sotero.cstore.service.ProductService;
-import ies.sotero.cstore.service.UserService;
+import ies.sotero.cstore.service.IOrderDetailService;
+import ies.sotero.cstore.service.IOrderService;
+import ies.sotero.cstore.service.IProductService;
+import ies.sotero.cstore.service.IUserService;
 
 @Controller
 @RequestMapping("/")
@@ -34,25 +35,31 @@ public class HomeController {
 	private final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
-	private ProductService productService;
+	private IProductService productService;
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 
 	@Autowired
-	private OrderService orderService;
+	private IOrderService orderService;
 
 	@Autowired
-	private OrderDetailService orderDetailService;
+	private IOrderDetailService orderDetailService;
 
 	List<OrderDetail> details = new ArrayList<>();
 
 	Order order = new Order();
 
 	@GetMapping("")
-	public String home(Model model) {
+	public String home(Model model, HttpSession session) {
+		LOGGER.info("User session {}", session.getAttribute("userId"));
+		
 		model.addAttribute("products", productService.findAll());
 
+		
+		//session
+		model.addAttribute("session", session.getAttribute("userId"));
+		
 		return "user/home";
 	}
 
@@ -137,16 +144,20 @@ public class HomeController {
 	}
 
 	@GetMapping("/getCart")
-	public String getCart(Model model) {
+	public String getCart(Model model, HttpSession session) {
 		model.addAttribute("cart", details);
 		model.addAttribute("order", order);
 
+		//session
+		model.addAttribute("session", session.getAttribute("userId"));
+		
 		return "/user/cart";
 	}
 
 	@GetMapping("/order")
-	public String order(Model model) {
-		User user = userService.findbyId(1).get();
+	public String order(Model model, HttpSession session) {
+		
+		User user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
 
 		model.addAttribute("cart", details);
 		model.addAttribute("order", order);
@@ -156,14 +167,14 @@ public class HomeController {
 	}
 
 	@GetMapping("/saveOrder")
-	public String saveOrder() {
+	public String saveOrder(HttpSession session) {
 		Date creationDate = new Date();
 
 		order.setCreationDate(creationDate);
 
 		order.setNumber(orderService.generateOrderNumber());
 
-		User user = userService.findbyId(1).get();
+		User user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
 
 		order.setUser(user);
 		orderService.save(order);

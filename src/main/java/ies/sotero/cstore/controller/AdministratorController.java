@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ies.sotero.cstore.model.Product;
-import ies.sotero.cstore.service.ProductService;
+import ies.sotero.cstore.service.IProductService;
 
 @Controller
 @RequestMapping("/administrator")
 public class AdministratorController {
 
 	@Autowired
-	private ProductService productService;
+	private IProductService productService;
 	
 	@GetMapping("")
 	public String home(Model model) {

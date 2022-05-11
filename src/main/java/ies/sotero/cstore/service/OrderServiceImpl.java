@@ -2,18 +2,20 @@ package ies.sotero.cstore.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ies.sotero.cstore.model.Order;
-import ies.sotero.cstore.repository.OrderRepository;
+import ies.sotero.cstore.model.User;
+import ies.sotero.cstore.repository.IOrderRepository;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements IOrderService{
 
 	@Autowired
-	private OrderRepository orderRepository;
+	private IOrderRepository orderRepository;
 	
 	@Override
 	public Order save(Order order) {
@@ -55,6 +57,16 @@ public class OrderServiceImpl implements OrderService{
 		}
 		
 		return numConcat;
+	}
+
+	@Override
+	public List<Order> findByUser(User user) {
+		return orderRepository.findByUser(user);
+	}
+
+	@Override
+	public Optional<Order> findById(Integer id) {
+		return orderRepository.findById(id);
 	}
 	
 }

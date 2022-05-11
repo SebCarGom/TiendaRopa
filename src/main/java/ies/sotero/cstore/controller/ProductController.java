@@ -3,6 +3,8 @@ package ies.sotero.cstore.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ies.sotero.cstore.model.Product;
 import ies.sotero.cstore.model.User;
-import ies.sotero.cstore.service.ProductService;
+import ies.sotero.cstore.service.IProductService;
+import ies.sotero.cstore.service.IUserService;
 import ies.sotero.cstore.service.UploadFileService;
+import ies.sotero.cstore.service.UserServiceImpl;
 
 @Controller
 @RequestMapping("/products")
@@ -27,10 +31,13 @@ public class ProductController {
 	private final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
 	@Autowired
-	private ProductService productService;
+	private IProductService productService;
 
 	@Autowired
 	private UploadFileService uploadFileService;
+	
+	@Autowired
+	private IUserService userService;
 
 	@GetMapping("")
 	public String show(Model model) {
@@ -44,10 +51,10 @@ public class ProductController {
 	}
 
 	@PostMapping("/save")
-	public String save(Product product, @RequestParam("img") MultipartFile file) throws IOException {
+	public String save(Product product, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
 		LOGGER.info("Object Product {}", product);
 
-		User u = new User(1, "", "", "", "", "", "", "");
+		User u = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
 
 		product.setUser(u);
 

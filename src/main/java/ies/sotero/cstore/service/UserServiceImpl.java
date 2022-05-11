@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ies.sotero.cstore.model.User;
-import ies.sotero.cstore.repository.UserRepository;
+import ies.sotero.cstore.repository.IUserRepository;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private IUserRepository userRepository;
 
 	@Override
 	public Optional<User> findbyId(Integer id) {

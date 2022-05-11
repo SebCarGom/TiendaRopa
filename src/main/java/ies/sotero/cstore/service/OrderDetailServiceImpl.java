@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ies.sotero.cstore.model.OrderDetail;
-import ies.sotero.cstore.repository.OrderDetailRepository;
+import ies.sotero.cstore.repository.IOrderDetailRepository;
 
 @Service
-public class OrderDetailServiceImpl implements OrderDetailService {
+public class OrderDetailServiceImpl implements IOrderDetailService {
 
 	@Autowired
-	private OrderDetailRepository orderDetailRepository;
+	private IOrderDetailRepository orderDetailRepository;
 	
 	@Override
 	public OrderDetail save(OrderDetail orderDetail) {
