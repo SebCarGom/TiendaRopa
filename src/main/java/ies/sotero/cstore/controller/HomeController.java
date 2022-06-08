@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ies.sotero.cstore.model.Order;
 import ies.sotero.cstore.model.OrderDetail;
 import ies.sotero.cstore.model.Product;
-import ies.sotero.cstore.model.User;
+import ies.sotero.cstore.model.CustomUser;
 import ies.sotero.cstore.service.IOrderDetailService;
 import ies.sotero.cstore.service.IOrderService;
 import ies.sotero.cstore.service.IProductService;
@@ -52,13 +52,13 @@ public class HomeController {
 
 	@GetMapping("")
 	public String home(Model model, HttpSession session) {
-		LOGGER.info("User session {}", session.getAttribute("userId"));
+		LOGGER.info("User session {}", session.getAttribute("userIdHome"));
 		
 		model.addAttribute("products", productService.findAll());
 
 		
 		//session
-		model.addAttribute("session", session.getAttribute("userId"));
+		model.addAttribute("sessionHome", session.getAttribute("userId"));
 		
 		return "user/home";
 	}
@@ -112,8 +112,8 @@ public class HomeController {
 		sumTotal = details.stream().mapToDouble(dt -> dt.getTotal()).sum();
 
 		order.setTotal(sumTotal);
-
-		model.addAttribute("cart", details);
+		
+		model.addAttribute("cart", details);	
 		model.addAttribute("order", order);
 
 		return "user/cart";
@@ -157,7 +157,7 @@ public class HomeController {
 	@GetMapping("/order")
 	public String order(Model model, HttpSession session) {
 		
-		User user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
+		CustomUser user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
 
 		model.addAttribute("cart", details);
 		model.addAttribute("order", order);
@@ -174,9 +174,10 @@ public class HomeController {
 
 		order.setNumber(orderService.generateOrderNumber());
 
-		User user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
+		CustomUser user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
 
 		order.setUser(user);
+		
 		orderService.save(order);
 
 		for (OrderDetail dt : details) {

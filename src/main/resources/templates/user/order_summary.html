@@ -70,7 +70,6 @@
                      <td th:text="${dt_order.price}"></td>
                      <td th:text="${dt_order.quantity}"></td>
                      <td th:text="${dt_order.total}"></td>
-
                    </tr>
                  </tbody>
                </table>
@@ -85,6 +84,7 @@
 
           <ul class="list-group">
             <li class="list-group-item"><h5 th:text=" 'Total: ' + ${order.total}"></h5></li>
+             <li class="list-group-item"><h5 th:text=" 'Total: ' + ${order.delivery}"></h5></li>
             <a th:href="@{/saveOrder}" class="btn btn-dark">Generar</a>
           </ul>
         </div>

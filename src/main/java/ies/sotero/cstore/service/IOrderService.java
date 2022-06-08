@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ies.sotero.cstore.model.Order;
-import ies.sotero.cstore.model.User;
+import ies.sotero.cstore.model.CustomUser;
 
 public interface IOrderService {
 	public List<Order> findAll();
@@ -13,7 +13,7 @@ public interface IOrderService {
 	
 	public String generateOrderNumber();
 	
-	public List<Order> findByUser (User user);
+	public List<Order> findByUser (CustomUser user);
 	
 	public Optional<Order> findById(Integer id);
 }

@@ -1,6 +1,7 @@
 package ies.sotero.cstore.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -17,12 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import ies.sotero.cstore.model.Category;
+import ies.sotero.cstore.model.CustomUser;
 import ies.sotero.cstore.model.Product;
-import ies.sotero.cstore.model.User;
+import ies.sotero.cstore.service.ICategoryService;
 import ies.sotero.cstore.service.IProductService;
 import ies.sotero.cstore.service.IUserService;
 import ies.sotero.cstore.service.UploadFileService;
-import ies.sotero.cstore.service.UserServiceImpl;
 
 @Controller
 @RequestMapping("/products")
@@ -54,7 +56,7 @@ public class ProductController {
 	public String save(Product product, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
 		LOGGER.info("Object Product {}", product);
 
-		User u = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
+		CustomUser u = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
 
 		product.setUser(u);
 
@@ -121,6 +123,27 @@ public class ProductController {
 		}
 
 		productService.delete(id);
+
+		return "redirect:/products";
+	}
+	
+	// Categories
+	@Autowired
+	private ICategoryService categoryService;
+	
+	@GetMapping("/category")
+	public String category(Model model) {
+		model.addAttribute("category", new Category());
+		
+		List<Category> categories = categoryService.findAll();
+		model.addAttribute("categories", categories);
+		return "products/categories";
+	}
+	
+	@PostMapping("/create")
+	public String create(Category category) {
+
+		categoryService.save(category);
 
 		return "redirect:/products";
 	}

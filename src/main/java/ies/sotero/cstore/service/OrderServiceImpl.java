@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ies.sotero.cstore.model.Order;
-import ies.sotero.cstore.model.User;
+import ies.sotero.cstore.model.CustomUser;
 import ies.sotero.cstore.repository.IOrderRepository;
 
 @Service
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements IOrderService{
 	}
 
 	@Override
-	public List<Order> findByUser(User user) {
+	public List<Order> findByUser(CustomUser user) {
 		return orderRepository.findByUser(user);
 	}
 

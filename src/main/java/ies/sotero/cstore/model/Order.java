@@ -21,9 +21,10 @@ public class Order {
 	private Date creationDate;
 	private Date receivedDate;
 	private double total;
+	private boolean delivery;
 
 	@ManyToOne
-	private User user;
+	private CustomUser user;
 
 	@OneToMany(mappedBy = "order")
 	private List<OrderDetail> orderDetail;
@@ -38,16 +39,16 @@ public class Order {
 	 * @param creationDate
 	 * @param receivedDate
 	 * @param total
-	 * @param user
-	 * @param orderDetail
+	 * @param delivery
 	 */
-	public Order(Integer id, String number, Date creationDate, Date receivedDate, double total) {
+	public Order(Integer id, String number, Date creationDate, Date receivedDate, double total, boolean delivery) {
 		super();
 		this.id = id;
 		this.number = number;
 		this.creationDate = creationDate;
 		this.receivedDate = receivedDate;
 		this.total = total;
+		this.delivery = delivery;
 	}
 
 	/**
@@ -119,18 +120,32 @@ public class Order {
 	public void setTotal(double total) {
 		this.total = total;
 	}
+	
+	/**
+	 * @return the delivery
+	 */
+	public boolean isDelivery() {
+		return delivery;
+	}
+
+	/**
+	 * @param delivery the delivery to set
+	 */
+	public void setDelivery(boolean delivery) {
+		this.delivery = delivery;
+	}
 
 	/**
 	 * @return the user
 	 */
-	public User getUser() {
+	public CustomUser getUser() {
 		return user;
 	}
 
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(User user) {
+	public void setUser(CustomUser user) {
 		this.user = user;
 	}
 
@@ -151,7 +166,7 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", number=" + number + ", creationDate=" + creationDate + ", receivedDate="
-				+ receivedDate + ", total=" + total + "]";
+				+ receivedDate + ", total=" + total + ", delivery=" + delivery + "]";
 	}
 
 }

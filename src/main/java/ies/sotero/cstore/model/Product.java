@@ -20,7 +20,10 @@ public class Product {
 	private int quantity;
 
 	@ManyToOne
-	private User user;
+	private CustomUser user;
+
+	@ManyToOne
+	private Category category;
 
 	public Product() {
 	}
@@ -34,7 +37,8 @@ public class Product {
 	 * @param quantity
 	 * @param user
 	 */
-	public Product(Integer id, String name, String description, String image, double price, int quantity, User user) {
+	public Product(Integer id, String name, String description, String image, double price, int quantity,
+			CustomUser user) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -132,15 +136,29 @@ public class Product {
 	/**
 	 * @return the user
 	 */
-	public User getUser() {
+	public CustomUser getUser() {
 		return user;
 	}
 
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(User user) {
+	public void setUser(CustomUser user) {
 		this.user = user;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@Override
