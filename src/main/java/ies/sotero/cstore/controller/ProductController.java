@@ -1,7 +1,6 @@
 package ies.sotero.cstore.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -18,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import ies.sotero.cstore.model.Category;
 import ies.sotero.cstore.model.CustomUser;
 import ies.sotero.cstore.model.Product;
-import ies.sotero.cstore.service.ICategoryService;
 import ies.sotero.cstore.service.IProductService;
 import ies.sotero.cstore.service.IUserService;
 import ies.sotero.cstore.service.UploadFileService;
@@ -103,7 +100,7 @@ public class ProductController {
 
 			product.setImage(imageName);
 		}
-		
+		LOGGER.info(p.getName());
 		product.setUser(p.getUser());
 
 		productService.update(product);
@@ -115,7 +112,6 @@ public class ProductController {
 	public String delete(@PathVariable Integer id) {
 
 		Product p = new Product();
-
 		p = productService.get(id).get();
 
 		if (!p.getImage().equals("default.jpg")) {
@@ -127,24 +123,14 @@ public class ProductController {
 		return "redirect:/products";
 	}
 	
-	// Categories
-	@Autowired
-	private ICategoryService categoryService;
-	
-	@GetMapping("/category")
-	public String category(Model model) {
-		model.addAttribute("category", new Category());
-		
-		List<Category> categories = categoryService.findAll();
-		model.addAttribute("categories", categories);
-		return "products/categories";
-	}
-	
-	@PostMapping("/create")
-	public String create(Category category) {
+	@PostMapping("/discount")
+	public String discount(@RequestParam("discount") String discount) throws IOException {
+		LOGGER.info("Object Product {}", discount);
 
-		categoryService.save(category);
+		productService.applyDiscount(Double.parseDouble(discount));
 
 		return "redirect:/products";
 	}
+	
+	
 }

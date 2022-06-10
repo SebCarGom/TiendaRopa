@@ -7,5 +7,4 @@ import ies.sotero.cstore.model.Category;
 
 @Repository
 public interface ICategoryRepository extends JpaRepository<Category, Integer>{
-
 }

@@ -15,4 +15,6 @@ public interface IProductService {
 	public void delete(Integer id);
 
 	public List<Product> findAll();
+	
+	public void applyDiscount(Double disc);
 }

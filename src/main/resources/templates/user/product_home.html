@@ -23,7 +23,9 @@
 
 <body>
 
-	<div th:include="user/template_user.html::header" />
+	<div th:include="user/template_user.html::header " th:if="${sessionProduct==null}"/>
+	
+	<div th:include="user/template_user.html::header-user" th:unless="${sessionProduct==null}"/>
 	
     <!-- Page Content -->
     <div class="container">

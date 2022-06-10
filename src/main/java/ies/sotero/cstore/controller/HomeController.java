@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ies.sotero.cstore.model.CustomUser;
 import ies.sotero.cstore.model.Order;
 import ies.sotero.cstore.model.OrderDetail;
 import ies.sotero.cstore.model.Product;
-import ies.sotero.cstore.model.CustomUser;
 import ies.sotero.cstore.service.IOrderDetailService;
 import ies.sotero.cstore.service.IOrderService;
 import ies.sotero.cstore.service.IProductService;
@@ -52,15 +52,50 @@ public class HomeController {
 
 	@GetMapping("")
 	public String home(Model model, HttpSession session) {
-		LOGGER.info("User session {}", session.getAttribute("userIdHome"));
-		
+		LOGGER.info("User session {}", session.getAttribute("userId"));
+
 		model.addAttribute("products", productService.findAll());
 
-		
-		//session
+		// session
 		model.addAttribute("sessionHome", session.getAttribute("userId"));
-		
+
 		return "user/home";
+	}
+	
+	@GetMapping("/kids")
+	public String homeKids(Model model, HttpSession session) {
+		LOGGER.info("User session {}", session.getAttribute("userId"));
+
+		model.addAttribute("products", productService.findAll());
+
+		// session
+		model.addAttribute("sessionHome", session.getAttribute("userId"));
+
+		return "user/kids";
+	}
+	
+	@GetMapping("men")
+	public String homeMen(Model model, HttpSession session) {
+		LOGGER.info("User session {}", session.getAttribute("userId"));
+
+		model.addAttribute("products", productService.findAll());
+
+		// session
+		model.addAttribute("sessionHome", session.getAttribute("userId"));
+
+		return "user/men";
+	}
+	
+	@GetMapping("/women")
+	public String homeWomen(Model model, HttpSession session) {
+		LOGGER.info("User session {}", session.getAttribute("userId"));
+
+		model.addAttribute("products", productService.findAll());
+
+		// session
+		model.addAttribute("sessionHome", session.getAttribute("userId"));
+
+		return "user/women";
 	}
 
 	@GetMapping("/product_home/{id}")
@@ -79,7 +114,8 @@ public class HomeController {
 	}
 
 	@PostMapping("/cart")
-	public String addCart(@RequestParam Integer id, @RequestParam Integer quantity, Model model) {
+	public String addCart( @RequestParam Integer id,
+			@RequestParam Integer quantity, Model model) {
 
 		OrderDetail orderDetail = new OrderDetail();
 
@@ -112,8 +148,9 @@ public class HomeController {
 		sumTotal = details.stream().mapToDouble(dt -> dt.getTotal()).sum();
 
 		order.setTotal(sumTotal);
-		
-		model.addAttribute("cart", details);	
+
+
+		model.addAttribute("cart", details);
 		model.addAttribute("order", order);
 
 		return "user/cart";
@@ -148,17 +185,20 @@ public class HomeController {
 		model.addAttribute("cart", details);
 		model.addAttribute("order", order);
 
-		//session
+		// session
 		model.addAttribute("session", session.getAttribute("userId"));
-		
+
 		return "/user/cart";
 	}
 
-	@GetMapping("/order")
-	public String order(Model model, HttpSession session) {
-		
-		CustomUser user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
+	@PostMapping("/order")
+	public String order(@RequestParam("delivery") String delivery,Model model, HttpSession session) {
 
+		CustomUser user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
+		LOGGER.info(delivery);
+		order.setDelivery(delivery.equalsIgnoreCase("true"));
+		LOGGER.info("delivery" + order.isDelivery());
+		
 		model.addAttribute("cart", details);
 		model.addAttribute("order", order);
 		model.addAttribute("user", user);
@@ -177,7 +217,6 @@ public class HomeController {
 		CustomUser user = userService.findbyId(Integer.parseInt(session.getAttribute("userId").toString())).get();
 
 		order.setUser(user);
-		
 		orderService.save(order);
 
 		for (OrderDetail dt : details) {
@@ -191,16 +230,17 @@ public class HomeController {
 		details.clear();
 
 		return "redirect:/";
-		}
-	
+	}
+
 	@PostMapping("/search")
 	public String searchProduct(@RequestParam String name, Model model) {
 		LOGGER.info("Product Name: {}", name);
-		
-		List<Product> products = productService.findAll().stream().filter(p -> p.getName().contains(name)).collect(Collectors.toList());
-		
+
+		List<Product> products = productService.findAll().stream().filter(p -> p.getName().contains(name))
+				.collect(Collectors.toList());
+
 		model.addAttribute("products", products);
-		
+
 		return "user/home";
 	}
 }

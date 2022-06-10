@@ -5,12 +5,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ies.sotero.cstore.model.CustomUser;
 import ies.sotero.cstore.model.Order;
 import ies.sotero.cstore.model.Product;
 import ies.sotero.cstore.service.IOrderService;
@@ -29,6 +32,8 @@ public class AdministratorController {
 
 	@Autowired
 	private IOrderService orderService;
+	
+	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	private final Logger LOGGER = LoggerFactory.getLogger(AdministratorController.class);
 
@@ -39,6 +44,24 @@ public class AdministratorController {
 		model.addAttribute("products", products);
 
 		return "administrator/home";
+	}
+	
+
+	
+	@GetMapping("/register")
+	public String create() {
+		return "administrator/register";
+	}
+	
+	@PostMapping("/save")
+	public String save(CustomUser user) {
+		LOGGER.info("User register: {}", user);
+		
+		user.setType("ADMIN");
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userService.save(user);
+		
+		return "redirect:/";
 	}
 
 	@GetMapping("/users")

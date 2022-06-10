@@ -23,12 +23,8 @@
 
 <body>
 
-	<div th:include="user/template_user.html::header"
-		th:if="${session==null}" />
-
-	<div th:include="user/template_user.html::header-user"
-		th:unless="${session==null}" />
-
+	<div th:include="user/template_user.html::header-cart"/>
+		
 	<!-- Page Content -->
 	<div class="container">
 
@@ -74,19 +70,23 @@
 
 					<div class="col-lg-3">
 						<h2 class="card-title">SUBTOTAL</h2>
-
 						<ul class="list-group">
 							<li class="list-group-item"><h5 th:text="${order.total}"></h5></li>
-							<li class="list-group-item">
-								<select th:field="${order.delivery}">
-								    <option th:value="true" th:text="Si"></option>
-								    <option th:value="false" th:text="No"></option>
-								</select>
-							</li>
-							<a th:href="@{/order}" class="btn btn-dark">Ver Orden</a>
 						</ul>
-					</div>
+						<form th:action="@{/order}" method="post">
+							<div class="form-group">
+							<label for="nombres">Recogida en Tienda:</label>
+								<select id="delivery" name="delivery">
+									<option id="1" th:value="true" th:text="Si"></option>
+									<option id="1" th:value="false" th:text="No"></option>
+								</select>
+							</div>
+							<div>
+								<button type="submit" class="btn btn-success">Ver Orden</button>
+							</div>
+						</form>
 					
+					</div>
 				</div>
 			</div>
 		</div>

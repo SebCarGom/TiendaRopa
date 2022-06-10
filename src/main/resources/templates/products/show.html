@@ -34,7 +34,7 @@
 		</h1>
 
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+			<li class="breadcrumb-item"><a th:href="@{/administrator}">Home</a></li>
 			<li class="breadcrumb-item active">Ver Productos</li>
 		</ol>
 
@@ -62,7 +62,16 @@
 				</tr>
 			</tbody>
 		</table>
-
+		
+		<form th:action="@{/products/discount}" method="get">
+			<div class="form-group">
+				<label for="nombres">Descuento % (Decimales):</label> <input type="text" class="form-control" id="delivery" name="delivery"
+					required placeholder="Ingrese el descuento deseado" autocomplete="off">
+			</div>
+			<div class="col-sm-2">
+				<button type="submit" class="btn btn-success">Aplicar Descuento</button>
+			</div>
+		</form>
 	</div>
 	<!-- /.container -->
 

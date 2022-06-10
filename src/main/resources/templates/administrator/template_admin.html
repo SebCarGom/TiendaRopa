@@ -24,8 +24,10 @@
 
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 							<a class="dropdown-item" th:href="@{/products}">Productos</a>
+							<a class="dropdown-item" th:href="@{/categories}">Categorias</a>
 							<a class="dropdown-item" th:href="@{/administrator/users}">Usuarios</a>
 							<a class="dropdown-item" th:href="@{/administrator/orders}">Ordenes</a>
+							<a class="dropdown-item" th:href="@{/administrator/register}">Registrar ADMIN</a>
 							<a class="dropdown-item" th:href="@{/user/logout}">Cerrar Sesion</a>
 						</div>
 					</li>
@@ -41,6 +43,13 @@
 		<div class="container">
 			<p class="m-0 text-center text-white">Copyright &copy; Spring
 				Clothing Store</p>
+		</div>
+		<div class="container">
+		<p class="m-0 text-right text-white">Tienda Fisica:</p>
+			<p class="m-0 text-right text-white">Horarios: L - J (8:00 - 21:00)</p>
+			<p class="m-0 text-right text-white">Horarios: V (8:00 - 17:00)</p>
+			
+			<a href="https://goo.gl/maps/Lk6iL5ze8Uw2UkAJ8"><p class="m-0 text-right text-white">Abrir Tienda en Google Maps</p></a>
 		</div>
 		<!-- /.container -->
 	</footer>

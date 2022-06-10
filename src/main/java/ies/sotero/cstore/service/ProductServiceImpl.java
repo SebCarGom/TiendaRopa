@@ -40,4 +40,8 @@ public class ProductServiceImpl implements IProductService {
 		return productRepository.findAll();
 	}
 
+	@Override
+	public void applyDiscount(Double disc) {
+		productRepository.priceDiscount(disc);
+	}
 }

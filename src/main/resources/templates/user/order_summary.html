@@ -22,7 +22,7 @@
 
 <body>
 
-  <div th:include="user/template_user.html::header" />
+  <div th:include="user/template_user.html::header-user" />
 
     <!-- Page Content -->
     <div class="container">
@@ -84,9 +84,18 @@
 
           <ul class="list-group">
             <li class="list-group-item"><h5 th:text=" 'Total: ' + ${order.total}"></h5></li>
-             <li class="list-group-item"><h5 th:text=" 'Total: ' + ${order.delivery}"></h5></li>
+            
+             <li th:if="${order.delivery == true}"class="list-group-item"><h5 th:text="'Pedido con Entrega a Domicilio'"></h5></li>
+             <li th:unless="${order.delivery == true}"class="list-group-item"><h5 th:text="'Pedido con Recogida en tienda'"></h5></li>
             <a th:href="@{/saveOrder}" class="btn btn-dark">Generar</a>
           </ul>
+          
+        </div>
+        <div class="row justify-content-md-center">
+        <div class="col-lg-3">
+        	<label for="map">Tienda:</label>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3080.9481002709063!2d-6.034507661636211!3d37.360814372722466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126cfc2a6f864d%3A0xfcda4396d9dd9f92!2sAv.%2028%20Febrero%2C%209%2C%2041920%20San%20Juan%20de%20Aznalfarache%2C%20Sevilla!5e0!3m2!1sen!2ses!4v1654878279513!5m2!1sen!2ses" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
         </div>
       </div>
     </div>

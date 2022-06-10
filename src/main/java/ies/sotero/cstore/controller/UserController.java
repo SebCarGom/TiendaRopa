@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ies.sotero.cstore.model.Order;
 import ies.sotero.cstore.model.CustomUser;
+import ies.sotero.cstore.model.Order;
 import ies.sotero.cstore.service.IOrderService;
 import ies.sotero.cstore.service.IUserService;
 
